@@ -58,19 +58,14 @@ class Order:
         for item in self.item_order_list:
             print("商品コード:{}".format(item))
 
-    def view_order_list(self):
+    def calculate_total_price(self):
         self.total_price=0
-        self.receipt_file_name=f"{self.datetime}.log"
-        self.receipt("登録商品一覧")
         for row in self.item_master:
             for item_code,item_quantity in zip(self.item_order_list,self.item_quantity_list):
                 if row.item_code == item_code:
                     price=row.price*int(item_quantity) 
-                    self.receipt(f"商品名：{row.item_name}")
-                    self.receipt(f"{item_quantity}個")
-                    self.receipt(f"{price}円")
                     self.total_price+=price
-        self.receipt(f"合計金額：{self.total_price}円")
+        return self.total_price
 
     def pay_off(self):
         if len(self.item_order_list)>=1:

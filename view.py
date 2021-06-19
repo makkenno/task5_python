@@ -15,5 +15,9 @@ def add_order(product_code, quantity):
     item_name, subtotal = order.return_subtotal_per_item(product_code, quantity)
     return product_code, item_name, quantity, subtotal
 
+@ eel.expose
+def calculate_total_price():
+    return order.calculate_total_price()
+
 desktop.start(app_name,end_point,size)
 #desktop.start(size=size,appName=app_name,endPoint=end_point)

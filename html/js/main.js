@@ -34,10 +34,20 @@ addBtn.addEventListener('click', () => {
     alert("商品コードと注文する個数を適切に入力してください");
     return false;
   }
-
   document.getElementById("quantity").value = "";
 })
 
 
 const billBtn = document.getElementById("bill-btn");
+billBtn.addEventListener('click', () => {
+  const calTotalPrice = async () => {
+    return await eel.calculate_total_price()();
+  }
+
+  calTotalPrice().then(totalPrice => {
+    const totalPriceInputField = document.getElementById('total_price');
+    totalPriceInputField.value = totalPrice + "円";
+  })
+})
+
 const payBtn = document.getElementById("pay-btn");
