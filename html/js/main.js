@@ -1,4 +1,8 @@
 const addBtn = document.getElementById("add-btn");
+const billBtn = document.getElementById("bill-btn");
+const payBtn = document.getElementById("pay-btn");
+const amountToPayField = document.getElementById('pay_off');
+
 addBtn.addEventListener('click', () => {
   const productCode = document.getElementById("product-code").value;
   const quantity = document.getElementById("quantity").value;
@@ -29,6 +33,7 @@ addBtn.addEventListener('click', () => {
         const newText = document.createTextNode(cellText);
         newCell.appendChild(newText);
       });
+      billBtn.disabled = false;
     })
   } else {
     alert("商品コードと注文する個数を適切に入力してください");
@@ -37,8 +42,6 @@ addBtn.addEventListener('click', () => {
   document.getElementById("quantity").value = "";
 })
 
-
-const billBtn = document.getElementById("bill-btn");
 billBtn.addEventListener('click', () => {
   const calTotalPrice = async () => {
     return await eel.calculate_total_price()();
@@ -47,12 +50,20 @@ billBtn.addEventListener('click', () => {
   calTotalPrice().then(totalPrice => {
     const totalPriceInputField = document.getElementById('total_price');
     totalPriceInputField.value = totalPrice + "円";
+    addBtn.disabled = true;
+    amountToPayField.disabled = false;
+    billBtn.disabled = true;
+    payBtn.disabled = false;
+
+    const productCodeField = document.getElementById('product-code');
+    const quantityField = document.getElementById('quantity');
+    productCodeField.disabled = true;
+    quantityField.disabled = true;
   })
 })
 
-const payBtn = document.getElementById("pay-btn");
 payBtn.addEventListener('click', () => {
-  const amountToPay = document.getElementById('pay_off').value;
+  const amountToPay = amountToPayField.value;
   const settleBill = async (amountToPay) => {
     return await eel.settle_bill(amountToPay)();
   }
@@ -65,11 +76,13 @@ payBtn.addEventListener('click', () => {
           confirm('ご利用ありがとうございました。');
         } else {
           alert('金額が足りません');
+          amountToPayField.value = '';
           return false;
         }
     })
     .catch((error) => {
-      alert('半角数字で金額を入力してください');
+      alert('数字で金額を入力してください');
+      amountToPayField.value = '';
       return false;
     })
 })
