@@ -80,6 +80,10 @@ class Order:
                     print(f"{abs(change_money)}円不足しています。再度入力してください")
             print("ありがとうございました。")
 
+    def settle_bill(self, amount_to_pay):
+        return int(amount_to_pay) - self.total_price
+
+
     def receipt(self,text):
         print(text)
         with open("./receipt/" + self.receipt_file_name,mode="a",encoding="utf-8_sig") as f:

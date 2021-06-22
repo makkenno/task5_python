@@ -51,3 +51,25 @@ billBtn.addEventListener('click', () => {
 })
 
 const payBtn = document.getElementById("pay-btn");
+payBtn.addEventListener('click', () => {
+  const amountToPay = document.getElementById('pay_off').value;
+  const settleBill = async (amountToPay) => {
+    return await eel.settle_bill(amountToPay)();
+  }
+
+  settleBill(amountToPay)
+    .then(change => {
+        const changeInputField = document.getElementById('change');
+        changeInputField.value = change + '円';
+        if(change >= 0) {
+          confirm('ご利用ありがとうございました。');
+        } else {
+          alert('金額が足りません');
+          return false;
+        }
+    })
+    .catch((error) => {
+      alert('半角数字で金額を入力してください');
+      return false;
+    })
+})

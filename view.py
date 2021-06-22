@@ -19,5 +19,9 @@ def add_order(product_code, quantity):
 def calculate_total_price():
     return order.calculate_total_price()
 
+@ eel.expose
+def settle_bill(amount_to_pay):
+    return order.settle_bill(amount_to_pay)
+
 desktop.start(app_name,end_point,size)
 #desktop.start(size=size,appName=app_name,endPoint=end_point)
