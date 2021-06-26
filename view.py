@@ -16,6 +16,11 @@ def add_order(product_code, quantity):
     return product_code, item_name, quantity, subtotal
 
 @ eel.expose
+def reset_order():
+    item_master = pos_system.add_item_master_from_csv('./item_master.csv')
+    order.__init__(item_master)
+
+@ eel.expose
 def calculate_total_price():
     return order.calculate_total_price()
 

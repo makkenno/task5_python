@@ -25,7 +25,7 @@ addBtn.addEventListener('click', () => {
 
   if(productCode !== "商品コード" && isNatureNum(quantity)) {
     addOrder(productCode,quantity).then(orderSubtotalArray => {
-      const table = document.getElementById('Table');
+      const table = document.getElementById('table');
       const newRow = table.insertRow();
       
       orderSubtotalArray.forEach(cellText => {
@@ -57,6 +57,8 @@ billBtn.addEventListener('click', () => {
 
     const productCodeField = document.getElementById('product-code');
     const quantityField = document.getElementById('quantity');
+    const resetBtn = document.getElementById('reset-btn');
+    resetBtn.disabled = true;
     productCodeField.disabled = true;
     quantityField.disabled = true;
   })
@@ -85,4 +87,19 @@ payBtn.addEventListener('click', () => {
       amountToPayField.value = '';
       return false;
     })
+})
+
+const resetBtn = document.getElementById('reset-btn');
+resetBtn.addEventListener('click', () => {
+  const resetOrder = async () => {
+    await eel.reset_order()();
+  }
+  resetOrder().then(() => {
+    const table = document.getElementById('table');
+    const rowLength = table.rows.length;
+    console.log(rowLength);
+    for (var i = rowLength-1; i > 0; i--) {
+      table.deleteRow(i);
+    }
+  })
 })
